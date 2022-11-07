@@ -49,7 +49,7 @@ class imstack
 	public:
 		cv::Mat colorimg;
 		cv::Mat colorimg32;
-		std::set<std::filesystem::path> sort_filename;
+		std::vector<std::filesystem::path> sort_filename;
 		Statslabel statslabel;
 		cv::Mat final_label;
 		HSVstack images;
@@ -59,13 +59,16 @@ class imstack
 		std::vector<Pixelarray> colpixuniq;
 		std::vector<cv::Mat> labelimag;
 
+		imstack();
+		~imstack();
+
 		void colorread(std::string path, float scalef);
 		void getfiles(std::string path);
-		void createmask(int numsamples, float scalef);
+		void createmask(int initialid, int numsamples, float scalef, float limit_v, int gx, int gy);
 		void readstack(float scalef);
 		void objpixels(Rectangle rectangle, int labelid, float limsimi);
 
 		void readstackv(float scalef);
-		void objpixelsv(Rectangle rectangle, int labelid, float limsimi);
+		void objpixelsv(Rectangle rectangle, int labelid, float limsimi, std::string multidirout);
 };
 
