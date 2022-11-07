@@ -444,7 +444,7 @@ void imstack::objpixelsv(Rectangle rectangle, int labelid, float limsimi, std::s
 					if (counter == NUM_SPECT)
 					{
 						stoploop = 1;
-						label_im.at<float>(i, j) = idy+1;
+						label_im.at<float>(i, j) = idy+1; 
 						break;
 					}
 						
