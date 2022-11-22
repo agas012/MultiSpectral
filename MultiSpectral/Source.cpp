@@ -20,18 +20,29 @@ void main()
 	PixelarrayV UobjpixelsVColec;
 	//read all folders to process 
 	const std::filesystem::path localdir{ "C:/Users/DR ALFONSO GASTELUM/Pictures/tepalcates/" };
+	std::string outdir = localdir.string() + "Results";
+	std::filesystem::create_directory(outdir);
 	std::vector<std::string> dirlist;
 	for (auto& p : std::filesystem::directory_iterator(localdir))
 		if (p.is_directory())
-			dirlist.push_back(p.path().string());
+		{
+			std::size_t found = p.path().string().find_last_of("/\\");
+			std::string dirtemp = p.path().string().substr(found + 1);
+			if(dirtemp != "Results")
+				dirlist.push_back(p.path().string());
+		}
+			
 	for (auto dir : dirlist)
 	{
 		imstack ImgI;
+		std::size_t found = dir.find_last_of("/\\");
 		std::string colordir = dir;
 		std::string multidir = dir + "/ms/";
-		std::string multidirout = multidir + "out/";
-		std::filesystem::create_directory(multidirout);
 
+		std::string outgroupdir = outdir + "/" + dir.substr(found + 1);
+		std::filesystem::create_directory(outgroupdir);
+		std::string multidirout = outgroupdir + "/out/";
+		std::filesystem::create_directory(multidirout);
 		std::string labeldir = multidirout + "label/";
 		std::filesystem::create_directory(labeldir);
 
