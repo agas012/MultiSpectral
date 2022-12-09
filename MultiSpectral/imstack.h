@@ -1,18 +1,27 @@
+// Daniel Bandala @ dec-2022
 #pragma once
-#include <opencv2/core.hpp>
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/imgproc.hpp>
 #include <filesystem>
 #include <iostream>
 #include <set>
 #include <numeric>
 #include <algorithm>
+// kernel
+#include "kernel.h"
+// opencv lib
+#include <opencv2/core.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
+// cuda api lib
+#include <opencv2/core/cuda.hpp>
+#include <opencv2/cudaarithm.hpp>
+#include <opencv2/cudaimgproc.hpp>
+#include <opencv2/cudafilters.hpp>
 
 struct HSVstack {
-	std::vector<cv::Mat> h;
-	std::vector<cv::Mat> s;
-	std::vector<cv::Mat> v;
+	std::vector<cv::cuda::GpuMat> h;
+	std::vector<cv::cuda::GpuMat> s;
+	std::vector<cv::cuda::GpuMat> v;
 };
 
 struct Vstack {
@@ -71,4 +80,3 @@ class imstack
 		void readstackv(float scalef);
 		void objpixelsv(Rectangle rectangle, int labelid, float limsimi, std::string multidirout);
 };
-
