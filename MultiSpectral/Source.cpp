@@ -16,12 +16,14 @@
 
 void main()
 {
-	float scalef = 1;
+	float scalef = 1.0;
 	PixelarrayV UobjpixelsVColec;
 	//read all folders to process 
 	const std::filesystem::path localdir{ "C:/Users/DR ALFONSO GASTELUM/Pictures/tepalcates/" };
-	std::string outdir = localdir.string() + "Results";
+	std::string outdir = localdir.string() + "Results2";
+	std::string labeldirgeneral = outdir + "/Labels";
 	std::filesystem::create_directory(outdir);
+	std::filesystem::create_directory(labeldirgeneral);
 	std::vector<std::string> dirlist;
 	for (auto& p : std::filesystem::directory_iterator(localdir))
 		if (p.is_directory())
@@ -31,7 +33,8 @@ void main()
 			if(dirtemp != "Results")
 				dirlist.push_back(p.path().string());
 		}
-			
+	int setid = 0;
+	int labelid = 0;
 	for (auto dir : dirlist)
 	{
 		imstack ImgI;
@@ -53,6 +56,7 @@ void main()
 		//
 		ImgI.readstackv(scalef);
 		ImgI.UobjpixelsV.val_v = UobjpixelsVColec.val_v;
+		setid = setid + 1;
 		for (int idx = 1; idx < ImgI.statslabel.left.size(); idx++)
 		{
 			Rectangle tempr;
@@ -64,8 +68,15 @@ void main()
 			//ImgI.labelimag vector contains mat files with the label objects;
 			//ImgI.UobjpixelsV list of pixels with unique values in v;
 			std::string filename;
-			filename = labeldir + std::to_string(idx) + ".tif";
+			labelid = labelid + 1;
+			//filename = labeldir + std::to_string(labelid) + ".tif"; labeldirgeneral
+			filename = labeldirgeneral + "/" + std::to_string(setid) + "_" + std::to_string(labelid) + ".tif";
 			cv::imwrite(filename, ImgI.labelimag[idx - 1]);
+			cv::Mat color_im;
+			cv::Rect crop_region(tempr.left, tempr.top, tempr.width, tempr.height);
+			color_im = ImgI.colorimg(crop_region);
+			filename = labeldirgeneral + "/" + std::to_string(setid) + "_" + std::to_string(labelid) + "c.tif";
+			cv::imwrite(filename, color_im);
 		}
 		UobjpixelsVColec.val_v.insert(UobjpixelsVColec.val_v.end(), ImgI.UobjpixelsV.val_v.begin(), ImgI.UobjpixelsV.val_v.end());
 	}

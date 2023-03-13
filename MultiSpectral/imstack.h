@@ -58,6 +58,7 @@ class imstack
 		PixelarrayV UobjpixelsV;
 		std::vector<Pixelarray> colpixuniq;
 		std::vector<cv::Mat> labelimag;
+		std::vector<cv::Mat> colorimag;
 
 		imstack();
 		~imstack();

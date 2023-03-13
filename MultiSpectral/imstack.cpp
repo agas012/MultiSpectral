@@ -457,5 +457,6 @@ void imstack::objpixelsv(Rectangle rectangle, int labelid, float limsimi, std::s
 			}
 		}
 	}
+	//cv::Mat color_im = cv::Mat::zeros(temp.v[0].rows, temp.v[0].cols, CV_32FC1);
 	labelimag.push_back(label_im);
 }
